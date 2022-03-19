@@ -2,9 +2,6 @@
   "name": "@visual-ieee754/core",
   "version": "0.0.0",
   "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
   "author": "wsszh01111",
   "license": "ISC"
 }
