@@ -9,6 +9,11 @@ const integerReg = /^[1-9]\d*|0$/
 const decimalReg = /^0\.\d+$/
 
 /**
+ * 标准数字字符串正则
+ */
+const numStrReg = /^([+-])?([1-9]\d*|0)(\.\d+)?/
+
+/**
  * 判断是否是个非负整数字符串
  * @param integerStr 非负整数字符串
  * @returns true/false
@@ -133,4 +138,20 @@ export const decimalTransform = (decimalStr: string, limit: string, base: string
   if (lost) result.pop()
   
   return [`0.${result.join('')}`, lost]
+}
+
+/**
+ * 数字字符串预处理 拆分成符号位、整数、小数三部分
+ * @param numStr 数字字符串
+ * @returns [正负, 整数字符串, 小数字符串]
+ */
+export const preProcess = (numStr: string) : [boolean, string, string] => {
+  const regRes = numStrReg.exec(numStr)
+  if (!regRes) return
+
+  const positive = regRes[1] === '-' ? false : true
+  const integer = regRes[2]
+  const decimal = regRes[3] ? `0${regRes[3]}` : undefined
+  if (integer || decimal) return [positive, integer, decimal]
+  return
 }

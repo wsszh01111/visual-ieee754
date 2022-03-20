@@ -1,4 +1,4 @@
-import { integerDivide, integerTransform, decimalMultiply, decimalTransform } from '../index'
+import { integerDivide, integerTransform, decimalMultiply, decimalTransform, preProcess } from '../index'
 
 test('test integerDivide', () => {
   expect(integerDivide('0', '2')).toEqual(['0', '0']) // 0
@@ -46,4 +46,25 @@ test('test decimalTransform', () => {
   expect(decimalTransform('0.1', '64')).toEqual(['0.0001100110011001100110011001100110011001100110011001100110011001', true])
   expect(decimalTransform('0.001', '64')).toEqual(['0.0000000001000001100010010011011101001011110001101010011111101111', true])
   expect(decimalTransform('0.0015', '64')).toEqual(['0.0000000001100010010011011101001011110001101010011111101111100111', true])
+})
+
+test('test preProcess', () => {
+  expect(preProcess(null)).toBe(undefined)
+  expect(preProcess(undefined)).toBe(undefined)
+  expect(preProcess('')).toBe(undefined)
+  expect(preProcess('NaN')).toBe(undefined)
+  expect(preProcess('...')).toBe(undefined)
+  expect(preProcess('asdf')).toBe(undefined)
+  expect(preProcess('+-+-')).toBe(undefined)
+  expect(preProcess('+-+1')).toEqual(undefined)
+  expect(preProcess('TTTT')).toBe(undefined)
+  expect(preProcess('.123')).toEqual(undefined)
+  expect(preProcess('-.123')).toEqual(undefined)
+  expect(preProcess('+.123')).toEqual(undefined)
+  expect(preProcess('asdf12')).toBe(undefined)
+  expect(preProcess('asdf12dsf')).toBe(undefined)
+  expect(preProcess('0.asdf')).toEqual([true, '0', undefined])
+  expect(preProcess('1234.')).toEqual([true, '1234', undefined])
+  expect(preProcess('-0.123')).toEqual([false, '0', '0.123'])
+  expect(preProcess('-532.323')).toEqual([false, '532', '0.323'])
 })
