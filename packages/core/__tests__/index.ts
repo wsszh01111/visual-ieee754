@@ -1,4 +1,4 @@
-import { integerDivide, integerTransform } from '../index'
+import { integerDivide, integerTransform, decimalMultiply, decimalTransform } from '../index'
 
 test('test integerDivide', () => {
   expect(integerDivide('0', '2')).toEqual(['0', '0']) // 0
@@ -27,4 +27,23 @@ test('test integerTransform', () => {
   expect(integerTransform('12340222', '2')).toBe('101111000100101111111110')
   expect(integerTransform('123456789123456789123456789123456789', '2')).toBe('101111100011011100011110000000011001011111000100100000100010110101101011101000110011010000100000001000101111100010101')
   expect(integerTransform('123456789123456789123456789123456788', '2')).toBe('101111100011011100011110000000011001011111000100100000100010110101101011101000110011010000100000001000101111100010100')
+})
+
+test('test decimalMultiply', () => {
+  expect(decimalMultiply('0.0', '2')).toBe('0')
+  expect(decimalMultiply('0.2', '2')).toBe('0.4')
+  expect(decimalMultiply('0.5', '2')).toBe('1')
+  expect(decimalMultiply('0.55', '2')).toBe('1.1')
+  expect(decimalMultiply('0.8', '2')).toBe('1.6')
+  expect(decimalMultiply('0.1010123', '2')).toBe('0.2020246')
+  expect(decimalMultiply('0.999999999', '2')).toBe('1.999999998')
+  expect(decimalMultiply('0.123410289571839475813457238475893478', '2')).toBe('0.246820579143678951626914476951786956')
+})
+
+test('test decimalTransform', () => {
+  expect(decimalTransform('0.125', '64')).toEqual(['0.001', false])
+  expect(decimalTransform('0.8125', '64')).toEqual(['0.1101', false])
+  expect(decimalTransform('0.1', '64')).toEqual(['0.0001100110011001100110011001100110011001100110011001100110011001', true])
+  expect(decimalTransform('0.001', '64')).toEqual(['0.0000000001000001100010010011011101001011110001101010011111101111', true])
+  expect(decimalTransform('0.0015', '64')).toEqual(['0.0000000001100010010011011101001011110001101010011111101111100111', true])
 })
